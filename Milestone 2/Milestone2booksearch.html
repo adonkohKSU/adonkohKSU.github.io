@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Milestone 2: Book Search</title>	
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+	<style>
+		h1   {
+			text-align: center
+		}
+		body {
+	        background-color: #8e91a5;
+	        font-family: 'Times New Roman', Times, serif;
+	    	margin:10px;  
+      	}
+		#piturec  {
+			float: left;
+			width: auto;
+			clear: both;
+			padding: 1em;
+		}		
+	</style>
+</head>
+<body>
+	<h1>Milestone 2: Book Search</h1>
+	<div>
+		<input id="searchItem" type="text">
+		<button id="searchButton" type="button">Search</button>
+		<select id = "pageNumber">
+			<option value="0">Page 1</option>
+			<option value="20">Page 2</option>
+			<option value="40">Page 3</option>
+			<option value="60">Page 4</option>
+		</select>
+	</div>
+	<div id="result">
+	</div>
+	<script>
+		$(document).ready(function(){
+    		$("#searchButton").click(function(){
+				var search="?q=" + $("#searchItem").val() + "&maxResults=20&startIndex=" + $("#pageNumber").val();
+				var link="https://www.googleapis.com/books/v1/volumes/" + search;
+        		$.getJSON(link, function(json){
+					$('#result').empty();
+           			$.each(json.items, function(){
+	            		$('#result').append('<div>' 
+	            			+ '<h2><a href="Milestone2bookdetails.html?id=' + this.id + '">'+this.volumeInfo.title +'</a></h2>' 
+							+'<img src="' + this.volumeInfo.imageLinks.thumbnail + '" id="picture">' + '</div>');	
+	            	});
+				}); 
+			});
+		});
+</script>
+</body>
+</html>

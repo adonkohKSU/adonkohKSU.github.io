@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>Milestone 2: Bookshelf</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    
+    <style type="text/css">
+        h1  {
+            text-align: center
+        } 
+         body {
+            background-color: #8e91a5;
+            font-family: 'Times New Roman', Times, serif;
+        	margin: 10 px;
+          }   
+    </style>
+</head>
+<body>
+    <h1 >Milestone 2: Bookshelf</h1>
+    <div id = "result"></div>
+    <script>
+        $(document).ready(function(){
+            var url = "https://www.googleapis.com/books/v1/users/101796452138780709682/bookshelves/1001/volumes";	
+    		$.getJSON ( url, function(json){		 					
+    			$.each(json.items, function(){
+    				$('#result').append('<h2> <a href = "Milestone2bookdetails.html?id='+ this.id +'">' + this.volumeInfo.title  +'</a></h2>'            			   
+    					   +'<img src="' + this.volumeInfo.imageLinks.thumbnail + '>' 
+    					   + '<p style = "clear: both"</p>');
+    			});
+    		}); 
+    	});
+    </script>
+</body>
+</html>
