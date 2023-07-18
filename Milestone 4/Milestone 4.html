@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+	<head>		
+		<title>Milestone 4</title>
+		<meta charset="UTF-8" />
+        <style>
+		body {
+			background-color: #bcc3e9;
+			
+		}
+		h1 {
+			text-align: center;
+
+		}
+
+		.result{
+			margin: 10 auto;
+			text-align: center;
+		}
+
+		.searchbox{	
+			margin: 0 auto;
+		}
+		
+		img{
+			float: left;
+			width: 130px;
+			height: 180px;
+		}
+
+		.pageView:hover{
+			cursor:pointer;
+		}
+
+		.pageView{		
+			text-align:center;	
+			color: black;
+			border-style: solid;		
+		}
+
+		#gridView{
+			display: flex;
+			flex-wrap: wrap;
+			flex-direction: row;
+			flex-grow: 0;
+			width: 100%;
+			justify-content: center;		
+		}
+
+		#listView{
+			display: flex;
+			flex-wrap: wrap;
+			flex-direction: column;
+			flex-grow: 0;
+			width: 100%;
+			justify-content: center;
+			align-items: center;			
+		}
+
+		.bookTemplate {
+			border: double #000000;
+			margin: 3px;
+			cursor: pointer;	
+		}
+
+		#bookList{
+			margin-top: 150px;		
+		}
+
+		#searchResult{
+			margin-top: 150px;
+		}
+		
+		.layout{
+			color: black;
+			cursor:pointer;
+			border-style: solid;
+		}
+		
+		.layout:hover{
+			background-color: #5F9EA0;
+		}
+		
+		.bookView{
+			position: fixed;
+			display: none;
+			background-color: rgba(0,0,0, 0.8);
+			width: 100%;
+			height: 100%;
+			top: 0px;
+			left: 0px;
+		}
+
+		#bookViewOverlay{
+			position: fixed;
+			width: 80%;
+			height: 85%;
+			top: 30px;
+			left: 120px;
+			overflow: auto;
+			border: solid #a3a5a5;
+			background-color: #bcc3e9;	
+			margin: auto 10;
+			padding:10px;					
+		}
+
+		.switchView{
+			cursor:pointer;
+			color: black;
+			border-style: solid;
+		}
+
+		.switchView:hover{
+			cursor:pointer;
+			background-color: #5F9EA0;
+		}
+        </style>
+
+		<script src="https://code.jquery.com/jquery-3.7.0.min.js">
+		</script>
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.0.0/mustache.min.js">
+		</script>
+
+		<script src="Milestone 4.js"></script>
+
+		<script id ="bookViewTemplate" type="text/template"> 
+			{{#items}}
+				<div class ="bookTemplate" id ='{{id}}' style="width: 40%;" dataLayout = "gridView">
+					{{#volumeInfo}}
+						{{#imageLinks}}
+							<img src ='{{thumbnail}}'/>
+						{{/imageLinks}}
+						<h2> {{title}} {{subtitle}} </h2>
+					{{/volumeInfo}}
+				</div>
+			{{/items}}
+		</script>
+	
+		<script id="bookDetails" type="text/template">
+				<div class ="bookDetailDisplay">
+					<div id = "bookViewOverlay">
+						<div style="text-align:left">
+							<input type ="button" id="buttonHide" value="Close" style="cursor:pointer"/> 
+						</div>
+						{{#volumeInfo}}							
+							<h2>{{title}} {{subtitle}}</h2>
+							{{#imageLinks}}
+								<img src ='{{thumbnail}}' style='margin:5 auto'/>
+							{{/imageLinks}}
+							
+							<div style="text-align:left">
+								<p style="clear: both;"><b>Author:</b> {{authors}}</p>
+								<p><b>Description:</b> {{description}}</p>
+								<p><b>Publisher:</b> {{publisher}}</p>
+								<p><b>Published Date:</b> {{publishedDate}}</p>
+								<p><b>PageCount:</b> {{pageCount}}</p>
+								<p><b>Rating:</b> {{averageRating}}</p>
+								<p><b>Categories:</b> {{categories}}</p>
+								<p><b>Book Preview:</b> <a href="{{previewLink}}" target="_blank"> {{previewLink}}</a></p>
+							</div>
+						{{/volumeInfo}}
+					</div>					
+				</div>
+		</script>				
+	</head>
+	<body>
+		<div>
+			<h1>Milestone 4: Book Search with Mustache Template</h1>
+			<div class="result">					
+				<input type = "text" id = "textbox" class = "searchbox">
+				<input type = "Submit" id = "searchBtn" resultCount = "0" class = "pageView" value = "Search">
+				<button id="gridButton" class="layout"> Grid View </button>
+				<button id="listButton" class="layout"> List View </button>
+			</div>
+			<div class="result">			
+				<button id = "bookSearchButton" class = "switchView" > Book Search Results</button>
+				<button id = "bookshelf" class = "switchView"> My BookShelf</button> 
+			</div>
+			<div class="result">
+				<span>Page:</span>
+				<button id = "button" resultCount = "0" class = "pageView">1</button>
+				<button id = "button" resultCount = "10" class = "pageView">2</button>
+				<button id = "button" resultCount = "20" class = "pageView" >3</button>
+				<button id = "button" resultCount = "30" class = "pageView" >4</button>
+				<button id = "button" resultCount = "40" class = "pageView" >5</button>	
+				<div id= "gridView" class= "bookList" ></div>
+				<div id= "gridView" class= "searchResult"></div>
+				<div class = "bookView"></div>
+			</div>	
+		</div>
+	</body>
+</html>
